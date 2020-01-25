@@ -83,17 +83,19 @@ activities.addEventListener('change', (e) => {
     }
 
     // Hide activities which contains same date and time
-    // const inputElemenets = document.querySelectorAll('input[type="checkbox"]');
-    // inputElemenets.dataset.dayAndTime;
-    // console.log(inputElemenets);
 
-    // for (let i = 0; i < inputElemenets.length; i++) {
-    //     if (e.target.dataset.dayAndTime === inputElemenets[i]) {
-    //         console.log('true');
-    //     } else {
-    //         console.log('false');
-    //     }
+    let inputElemenets = e.target.dataset.dayAndTime;
+    console.log(inputElemenets);
+    const dateAndTime = document.querySelectorAll('input[type="checkbox"]');
+    console.log(dateAndTime.length);
+
+    for (let i = 0; i < dateAndTime.length; i++) {
+        if (e.target.dataset.dayAndTime == dateAndTime[i]) {
+            console.log('true');
+        } else {
+            console.log('false');
+        }
         
-    // }
+    }
 });
 
