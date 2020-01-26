@@ -1,7 +1,8 @@
-// Focus on first Input Field
-const name = document.getElementById('name').focus();
+// On page load, the cursor appears in the "Name" field, ready for a user to type.
+const name = document.getElementById('name');
+name.focus();
 
-// Hide other Field in job role
+// "Your job role" text field appears when user selects "Other" from the Job Role menu.
 const otherTitle = document.getElementById('other-title');
 otherTitle.style.display = 'none';
 
@@ -14,18 +15,22 @@ title.addEventListener('change', (e) => {
     }
 });
 
-// Hide selected theme option
-const tShirtDesign = document.getElementById('design');
-tShirtDesign.remove(0);
+
+// Until a theme is selected from the “Design” menu, no color options appear in the “Color” drop down and the “Color” field reads “Please select a T-shirt theme”.
+// When a new theme is selected from the "Design" menu, the "Color" field and drop down menu is updated.
+// Color” drop down menu is hidden until a T-Shirt design is selected.
 
 // Set default Color option
+const tShirtDesign = document.getElementById('design');
+tShirtDesign[0].selected = 'select';
+
 const tShirtColor = document.getElementById('color');
 const tShirtNewValue = document.createElement('option');
+const colorSelections = document.getElementById('colors-js-puns');
+colorSelections.style.display = 'none';
 tShirtNewValue.textContent = 'Please select a T-shirt theme';
 tShirtNewValue.selected = 'select';
 tShirtColor.add(tShirtNewValue, tShirtColor[0]);
-
-
 
 // Hide the colors in the “Color” drop down menu.
 
@@ -42,6 +47,7 @@ tShirtDesign.addEventListener("change", (e) => {
     const color = document.getElementById('color');
 
         if (selectedValue === 'js puns') {
+            colorSelections.style.display = 'block';
             tShirtColor[1].style.display = 'block';
             tShirtColor[1].selected = 'select';
             tShirtColor[2].style.display = 'block';
@@ -51,6 +57,7 @@ tShirtDesign.addEventListener("change", (e) => {
             tShirtColor[0].style.display = 'none';
             tShirtColor[6].style.display = 'none';
         } else if (selectedValue === 'heart js') {
+            colorSelections.style.display = 'block';
             tShirtColor[0].style.display = 'none';
             tShirtColor[1].style.display = 'none';
             tShirtColor[2].style.display = 'none';
@@ -59,14 +66,16 @@ tShirtDesign.addEventListener("change", (e) => {
             tShirtColor[4].style.display = 'block';
             tShirtColor[5].style.display = 'block';
             tShirtColor[6].style.display = 'block'; 
+        } else if (selectedValue === 'Select Theme') {
+            colorSelections.style.display = 'none'; 
         }
 
 });
 
 
-// Activities
+// User cannot select two activities that are at the same time.
+// Total cost of selected activities is calculated and displayed below the list of activities.
 
-// Creating new diw where we will display total cost of selected activities
 const activities = document.querySelector('.activities');
 const legend = document.getElementsByName('legend');
 const newDiv = document.createElement('div');
@@ -110,20 +119,18 @@ activities.addEventListener('change', (e) => {
 });
 
 
-// Payment Selection
-
-//DOM
-const creditCard = document.getElementById('credit-card');
-const paypal = document.getElementById('paypal');
-const bitcoin = document.getElementById('bitcoin');
-
+// The "Credit Card" payment option is selected by default.
+// Payment option in the select menu matches the payment option displayed on the page.
 const paymentOption = document.getElementById('payment');
 paymentOption[0].style.display = 'none';
 paymentOption[1].selected = 'select';
 
+// When a user chooses a payment option, the chosen payment section is revealed and the other payment sections are hidden.
+const creditCard = document.getElementById('credit-card');
+const paypal = document.getElementById('paypal');
+const bitcoin = document.getElementById('bitcoin');
 paypal.style.display = 'none';
 bitcoin.style.display = 'none';
-
 
 paymentOption.addEventListener('change', (e) => {
     if (e.target.value === 'credit card') {
@@ -141,143 +148,170 @@ paymentOption.addEventListener('change', (e) => {
     }
 });
 
-// Validation
-const form = document.querySelector('form');
 
-function validateName(){
-    let nameInput = document.getElementById('name');
-    nameInput = nameInput.value;
-    const regexName = /^[A-Za-z]+\s?([A-Za-z]+)?$/; 
-    if(regexName.test(nameInput)){
-        return true;
-    } else{
-        return false;
-    }
-  }
+// Form cannot be submitted (the page does not refresh when the submit button is clicked) until the following requirements have been met: 
+    // Name field isn’t blank.
+    // Email field contains validly formatted e-mail address: (doesn’t have to check that it's a real e-mail address, just that it's formatted like one: dave@teamtreehouse.com, for example).
+    // At least one checkbox under "Register for Activities" section must be selected.
+    // If "Credit Card" is the selected payment option, the three fields accept only numbers: a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value. 
+    const form = document.querySelector('form');
 
-function validateEmail() {
-    let email = document.getElementById('mail');
-    email = email.value;
-    const regexEmail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    if(regexEmail.test(email)){
-        console.log('Email is correct');
-        return true;
-    } else{
-        console.log('Email is incorect');
-        return false;
-    }
-}
-
-function validateCardNumber(){
-    let cardNumber = document.getElementById('cc-num');
-    cardNumber = cardNumber.value;
-    const regexCardNumber = /^\d{13,16}$/;
-    if(regexCardNumber.test(cardNumber)){
-        console.log('cardNumber is correct');
-        return true;
-    } else{
-        console.log('Card number is incorect');
-        return false;
-    }
-  }
-
-function validateZipCode(){
-    let zipCode = document.getElementById('zip');
-    zipCode = zipCode.value;
-    const regexZipCode = /^\d{5}$|^\d{5}-\d{4}$/;
-    if(regexZipCode.test(zipCode)){
-        console.log('Zip Code is correct');
-        return true;
-    } else{
-        console.log('Zip Code is incorrect');
-        return false;
-    }
-  }
-
-  function validateCvvCode(){
-    let cvv = document.getElementById('cvv');
-    cvv = cvv.value;
-    const regexCvvCode = /^[0-9]{3,3}$/;
-    if(regexCvvCode.test(cvv)){
-        console.log('CVV is correct');
-        return true;
-    } else{
-        console.log('CVV is incorrect');
-        return false;
-    }
-  }
-
-  function validateActivities() {
-    const inputActivities = document.querySelectorAll('input[type="checkbox"]');
-      for (let i = 0; i < inputActivities.length; i ++) {
-          if(inputActivities[i].checked === true) {           
-              return true;
-          } else if (inputActivities[i].checekd === false) {
+    const validateName = () => {
+        let nameInput = document.getElementById('name');
+        nameInput = nameInput.value;
+        const regexName = /^[A-Za-z]+\s?([A-Za-z]+)?$/; 
+        if(regexName.test(nameInput)){
+            return true;
+        } else{
             return false;
-          }
+        }
       }
-   }
-
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    validateName();
-    validateEmail();
-    validateCardNumber();
-    validateZipCode();
-    validateCvvCode();
-    validateActivities();
-
-
-    if (validateName() === true && 
-        validateEmail() === true &&  
-        validateCardNumber() === true && 
-        validateZipCode() === true && 
-        validateCvvCode() === true && 
-        validateActivities() === true
-        ) {
-        console.log("All fields entered correctly");
-        return true;
-    } else {
-        console.log("All fields entered incorectly");
-        return false;
+    
+    const validateEmail = () => {
+        let email = document.getElementById('mail');
+        email = email.value;
+        const regexEmail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        if(regexEmail.test(email)){
+            return true;
+        } else{
+            return false;
+        }
     }
-})
+    
+    const validateCardNumber = () => {
+        let cardNumber = document.getElementById('cc-num');
+        cardNumber = cardNumber.value;
+        const regexCardNumber = /^\d{13,16}$/;
+        if(regexCardNumber.test(cardNumber)){
+            return true;
+        } else{
+            return false;
+        }
+      }
+    
+    const validateZipCode = () => {
+        let zipCode = document.getElementById('zip');
+        zipCode = zipCode.value;
+        const regexZipCode = /^\d{5}$|^\d{5}-\d{4}$/;
+        if(regexZipCode.test(zipCode)){
+            return true;
+        } else{
+            return false;
+        }
+      }
+    
+      const validateCvvCode = () => {
+        let cvv = document.getElementById('cvv');
+        cvv = cvv.value;
+        const regexCvvCode = /^[0-9]{3,3}$/;
+        if(regexCvvCode.test(cvv)){
+            return true;
+        } else{
+            return false;
+        }
+      }
+    
+      const validateActivities = () => {
+        const inputActivities = document.querySelectorAll('input[type="checkbox"]');
+          for (let i = 0; i < inputActivities.length; i ++) {
+              if(inputActivities[i].checked === true) {           
+                  return true;
+              } else if (inputActivities[i].checekd === false) {
+                return false;
+              }
+          }
+       }
 
-form.addEventListener('keyup', (e) => {
-    const nameField = document.getElementById('name');
+    form.addEventListener('submit', (e) => {
+    
+
+        if (paymentOption[1].selected === false) {
+            if (validateName() === true && 
+            validateEmail() === true &&  
+            validateActivities() === true
+            ) {
+            return true;
+        } else {
+            e.preventDefault();
+            displayErrorMessage();
+            return false;
+        }
+        } else if (paymentOption[1].selected === true) {
+            if (validateName() === true && 
+            validateEmail() === true &&  
+            validateCardNumber() === true && 
+            validateZipCode() === true && 
+            validateCvvCode() === true && 
+            validateActivities() === true
+            ) {
+            return true;
+        } else {
+            e.preventDefault();
+            displayErrorMessage();
+            return false;
+        }
+        }
+    })
+
+const displayErrorMessage = () => {
+    const errorMessageDisplay = document.createElement('div');
+    errorMessageDisplay.textContent = `Please enter information in all fields marked red color`;
+    errorMessageDisplay.style.color = 'red';
+
+    form.appendChild(errorMessageDisplay);
+}
+    
+
+
+// On submission, the form provides an error indication or message for each field that requires validation: 
+    // Name field
+    // Email field
+    // “Register for Activities” checkboxes
+    // Credit Card number, Zip code, and CVV, only if the credit card payment method is selected.
+
+const nameField = document.getElementById('name');
+const mailField = document.getElementById('mail');
+const ccNumField = document.getElementById('cc-num');
+const zipField = document.getElementById('zip');
+const cvvField = document.getElementById('cvv');
+
+const checkIfAllFieldEnteredCorrect = () => {
     if (validateName() === true) {
         nameField.style.borderColor = 'inherit';
     } else {
         nameField.style.borderColor = 'red';
     }
-
-    const mailField = document.getElementById('mail');
     if (validateEmail() === true) {
         mailField.style.borderColor = 'inherit';
     } else {
         mailField.style.borderColor = 'red';
     }
-
-        const ccNumField = document.getElementById('cc-num');
     if (validateCardNumber() === true) {
         ccNumField.style.borderColor = 'inherit';
     } else {
         ccNumField.style.borderColor = 'red';
     }
-
-        const zipField = document.getElementById('zip');
     if (validateZipCode() === true) {
         zipField.style.borderColor = 'inherit';
     } else {
         zipField.style.borderColor = 'red';
     }
-
-    const cvvField = document.getElementById('cvv');
     if (validateCvvCode() === true) {
         cvvField.style.borderColor = 'inherit';
     } else {
         cvvField.style.borderColor = 'red';
     }
-});
+    if (validateActivities() === true) {   
+    } else {
+        const activitiesField = document.querySelector('.activities legend');
+        activitiesField.style.color = 'red';
+    }
+}
+
+    form.addEventListener('keyup', (e) => {
+        checkIfAllFieldEnteredCorrect();
+    });
+    form.addEventListener('submit', (e) => {
+        checkIfAllFieldEnteredCorrect();
+    });
+
