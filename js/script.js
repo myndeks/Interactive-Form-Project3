@@ -95,16 +95,15 @@ activities.addEventListener('change', (e) => {
 
     // Hide activities which contains same date and time
     const checkboxes = document.querySelectorAll('.activities input');
-    const clicked = e.target.dataset.dayAndTime;
-    // console.log(clicked);
+    const label = document.querySelectorAll('.activities label');
 
     for (let i = 0; i < checkboxes.length; i++) {
-        // console.log(checkboxes);
+    
 
-        if (clicked === checkboxes.dataset.dayAndTime) {
+        if (checkboxes[i].dataset.dayAndTime ===  e.target.dataset.dayAndTime) {
+            checkboxes[i].disabled = true;
+            label[i].style.color = "#696969"; 
             console.log('true');
-        } else {
-            console.log('false');
         }
         
     }
