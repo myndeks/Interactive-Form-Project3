@@ -109,10 +109,15 @@ activities.addEventListener('change', (e) => {
     for (let i = 0; i < checkboxes.length; i++) {
     
 
-        if (checkboxes[i].dataset.dayAndTime ===  e.target.dataset.dayAndTime) {
-            checkboxes[i].disabled = true;
-            label[i].style.color = "#696969"; 
-            console.log('true');
+        if (checkboxes[i].dataset.dayAndTime === e.target.dataset.dayAndTime && e.target != checkboxes[i]) {
+            if (e.target.checked) {
+                checkboxes[i].disabled = true;
+                label[i].style.color = "#696969"; 
+            } else {
+                label[i].style.color = "#000"; 
+                checkboxes[i].disabled = false;
+            }
+
         }
         
     }
@@ -156,6 +161,7 @@ paymentOption.addEventListener('change', (e) => {
     // If "Credit Card" is the selected payment option, the three fields accept only numbers: a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value. 
     let form = document.querySelector('form');
 
+    // Validations
     const validateName = () => {
         let nameInput = document.getElementById('name');
         nameInput = nameInput.value;
@@ -224,7 +230,7 @@ paymentOption.addEventListener('change', (e) => {
 
     form.addEventListener('submit', (e) => {
     
-
+// Chech if all entered fields contains correct data if not not allow to submit form.
         if (paymentOption[1].selected === false) {
             if (validateName() === true && 
             validateEmail() === true &&  
@@ -253,6 +259,7 @@ paymentOption.addEventListener('change', (e) => {
         }
     })
 
+// Display Error please fill in all fiels marked red color
 const displayErrorMessage = () => {
     const errorMessageDisplay = document.createElement('div');
     errorMessageDisplay.textContent = `Please enter information in all fields marked red color`;
@@ -261,25 +268,25 @@ const displayErrorMessage = () => {
     form.appendChild(errorMessageDisplay);
 }
 
-// const erroNearField = () => {
-//     let email = document.getElementById('mail');
-//     email = email.value;
-//     const regEx = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-//     if (validateEmail() === false) {
-//         if (email.value != regEx) {
-//             console.log('Enter message');
-//             const formField = document.querySelector('form fieldset');
-//             const emailField = document.querySelector('label[for="title"]');
-//             const emailErrorMessage = document.createElement('span');
-//             emailErrorMessage.classList.add('msg');
-//             emailErrorMessage.textContent = `Please Enter Correct Email Information`;
-//             formField.insertBefore(emailErrorMessage, emailField);
-//         } else if (email.value === regEx) {
-//             emailErrorMessage.style.display = 'none';
-//             console.log('true');
-//         }
-//     }
-// }
+const formField = document.querySelector('form fieldset');
+const emailField = document.querySelector('label[for="title"]');
+const emailErrorMessage = document.createElement('span');
+formField.insertBefore(emailErrorMessage, emailField);
+
+// Check if email is valid or not, if not display error message Please Enter Correct Email
+const errorEmailField = () => {
+    
+    let email = document.getElementById('mail');
+
+    if (validateEmail() === false) { 
+        emailErrorMessage.style.display = '';
+        emailErrorMessage.classList.add('msg');
+        emailErrorMessage.textContent = `Please Enter Correct Email`;
+        } else { 
+        emailErrorMessage.classList.add('msg');
+        emailErrorMessage.style.display = 'none';
+    }
+}
     
 
 
@@ -294,45 +301,106 @@ const mailField = document.getElementById('mail');
 const ccNumField = document.getElementById('cc-num');
 const zipField = document.getElementById('zip');
 const cvvField = document.getElementById('cvv');
+const activitiesField = document.querySelector('.activities legend');
 
-const checkIfAllFieldEnteredCorrect = () => {
+
+// Chech for real time errors
+    nameField.addEventListener('keyup', (e) => {
+        if (validateName() === true) {
+            nameField.style.borderColor = 'inherit';
+        } else {
+            nameField.style.borderColor = 'red';
+        }
+    });
+
+    mailField.addEventListener('keyup', (e) => {    
+        errorEmailField();  
+        if (validateEmail() === true) {
+            mailField.style.borderColor = 'inherit';
+        } else {
+            mailField.style.borderColor = 'red';
+        }
+    });
+
+    ccNumField.addEventListener('keyup', (e) => {
+        if (validateCardNumber() === true) {
+            ccNumField.style.borderColor = 'inherit';
+        } else {
+            ccNumField.style.borderColor = 'red';
+        }
+    });
+
+    zipField.addEventListener('keyup', (e) => {
+        if (validateZipCode() === true) {
+            zipField.style.borderColor = 'inherit';
+        } else {
+            zipField.style.borderColor = 'red';
+        }
+    });
+
+    cvvField.addEventListener('keyup', (e) => {
+        if (validateCvvCode() === true) {
+            cvvField.style.borderColor = 'inherit';
+        } else {
+            cvvField.style.borderColor = 'red';
+        }
+    });
+
+    activities.addEventListener('keyup', (e) => {
+        if (validateActivities() === true) {  
+        } else {
+            const activitiesField = document.querySelector('.activities legend');
+            activitiesField.style.color = 'red';
+        }
+    });
+    
+
+
+// Chech for submit errors
+form.addEventListener('submit', (e) => {
     if (validateName() === true) {
         nameField.style.borderColor = 'inherit';
     } else {
         nameField.style.borderColor = 'red';
     }
+});
+
+form.addEventListener('submit', (e) => {      
     if (validateEmail() === true) {
         mailField.style.borderColor = 'inherit';
     } else {
         mailField.style.borderColor = 'red';
     }
+});
+
+form.addEventListener('submit', (e) => {
     if (validateCardNumber() === true) {
         ccNumField.style.borderColor = 'inherit';
     } else {
         ccNumField.style.borderColor = 'red';
     }
+});
+
+form.addEventListener('submit', (e) => {
     if (validateZipCode() === true) {
         zipField.style.borderColor = 'inherit';
     } else {
         zipField.style.borderColor = 'red';
     }
+});
+
+form.addEventListener('submit', (e) => {
     if (validateCvvCode() === true) {
         cvvField.style.borderColor = 'inherit';
     } else {
         cvvField.style.borderColor = 'red';
     }
+});
+
+form.addEventListener('submit', (e) => {
     if (validateActivities() === true) {   
     } else {
         const activitiesField = document.querySelector('.activities legend');
         activitiesField.style.color = 'red';
     }
-}
-
-    form.addEventListener('keyup', (e) => {
-        checkIfAllFieldEnteredCorrect();
-        // erroNearField();
-    });
-    form.addEventListener('submit', (e) => {
-        checkIfAllFieldEnteredCorrect();
-    });
-
+});
