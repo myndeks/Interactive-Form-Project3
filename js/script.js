@@ -304,46 +304,37 @@ const cvvField = document.getElementById('cvv');
 const activitiesField = document.querySelector('.activities legend');
 
 
+// Function to display border color red when wrong information are typed in. And inherit, when correct is typed
+
+function displayRed(validate, inputName) {
+    if (validate() === true) {
+        inputName.style.borderColor = 'inherit';
+    } else {
+        inputName.style.borderColor = 'red';
+    }
+}
+
 // Chech for real time errors
-    nameField.addEventListener('keyup', (e) => {
-        if (validateName() === true) {
-            nameField.style.borderColor = 'inherit';
-        } else {
-            nameField.style.borderColor = 'red';
-        }
+    nameField.addEventListener('keyup',  function() {
+        displayRed(validateName, nameField);
     });
 
-    mailField.addEventListener('keyup', (e) => {    
+    mailField.addEventListener('keyup',  function() {
+        // Call function for real time error on email
         errorEmailField();  
-        if (validateEmail() === true) {
-            mailField.style.borderColor = 'inherit';
-        } else {
-            mailField.style.borderColor = 'red';
-        }
+        displayRed(validateEmail, mailField);
     });
 
-    ccNumField.addEventListener('keyup', (e) => {
-        if (validateCardNumber() === true) {
-            ccNumField.style.borderColor = 'inherit';
-        } else {
-            ccNumField.style.borderColor = 'red';
-        }
+    ccNumField.addEventListener('keyup',  function() {
+        displayRed(validateCardNumber, ccNumField);
     });
 
-    zipField.addEventListener('keyup', (e) => {
-        if (validateZipCode() === true) {
-            zipField.style.borderColor = 'inherit';
-        } else {
-            zipField.style.borderColor = 'red';
-        }
+    zipField.addEventListener('keyup',  function() {
+        displayRed(validateZipCode, zipField);
     });
 
-    cvvField.addEventListener('keyup', (e) => {
-        if (validateCvvCode() === true) {
-            cvvField.style.borderColor = 'inherit';
-        } else {
-            cvvField.style.borderColor = 'red';
-        }
+    cvvField.addEventListener('keyup',  function() {
+        displayRed(validateCvvCode, cvvField);
     });
 
     activities.addEventListener('keyup', (e) => {
@@ -353,54 +344,33 @@ const activitiesField = document.querySelector('.activities legend');
             activitiesField.style.color = 'red';
         }
     });
-    
 
 
-// Chech for submit errors
-form.addEventListener('submit', (e) => {
-    if (validateName() === true) {
-        nameField.style.borderColor = 'inherit';
-    } else {
-        nameField.style.borderColor = 'red';
-    }
-});
+// Chech for wrong entered information when submit button pressed
+    form.addEventListener('submit',  function() {
+        displayRed(validateName, nameField);
+    });
 
-form.addEventListener('submit', (e) => {      
-    if (validateEmail() === true) {
-        mailField.style.borderColor = 'inherit';
-    } else {
-        mailField.style.borderColor = 'red';
-    }
-});
+    form.addEventListener('submit',  function() { 
+        displayRed(validateEmail, mailField);
+    });
 
-form.addEventListener('submit', (e) => {
-    if (validateCardNumber() === true) {
-        ccNumField.style.borderColor = 'inherit';
-    } else {
-        ccNumField.style.borderColor = 'red';
-    }
-});
+    form.addEventListener('submit',  function() {
+        displayRed(validateCardNumber, ccNumField);
+    });
 
-form.addEventListener('submit', (e) => {
-    if (validateZipCode() === true) {
-        zipField.style.borderColor = 'inherit';
-    } else {
-        zipField.style.borderColor = 'red';
-    }
-});
+    form.addEventListener('submit',  function() {
+        displayRed(validateZipCode, zipField);
+    });
 
-form.addEventListener('submit', (e) => {
-    if (validateCvvCode() === true) {
-        cvvField.style.borderColor = 'inherit';
-    } else {
-        cvvField.style.borderColor = 'red';
-    }
-});
+    form.addEventListener('submit',  function() {
+        displayRed(validateCvvCode, cvvField);
+    });
 
-form.addEventListener('submit', (e) => {
-    if (validateActivities() === true) {   
-    } else {
-        const activitiesField = document.querySelector('.activities legend');
-        activitiesField.style.color = 'red';
-    }
-});
+    form.addEventListener('submit', () => {
+        if (validateActivities() === true) {   
+        } else {
+            const activitiesField = document.querySelector('.activities legend');
+            activitiesField.style.color = 'red';
+        }
+    });
